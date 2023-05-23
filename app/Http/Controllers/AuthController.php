@@ -32,7 +32,7 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-        if ($request->password !== $akun->password) {
+        if (md5($request->password) !== $akun->password) {
             return back()
                 ->withErrors([
                     'username' => 'Email atau Password yang diinputkan salah!',
@@ -53,15 +53,8 @@ class AuthController extends Controller
         return redirect()->route('dashboard');
     }
     
-    public function destroy(Request $request)
-    {
+    function logout(){
         Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        Session::flash('logout', 'Logout Berhasil!');
-        return redirect('/login');
+        return redirect('');
     }
 }

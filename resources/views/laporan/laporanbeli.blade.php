@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Laporan Beli</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -53,8 +53,6 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-        
-
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <!-- Notification Dropdown Items -->
           </ul><!-- End Notification Dropdown Items -->
@@ -81,7 +79,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Sampah</h1>
+      <h1>Laporan Beli</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
@@ -90,82 +88,109 @@
       </nav>
     </div><!-- End Page Title -->
     <section class="section dashboard">
-        <div class="row">
-            <div class="card text-center">
+      <div class="row">
+      <div class="card text-center">
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#basicModal">
-                                Tambah Data
-                            </button>
+                            <a href="{{ route('laporan.jual') }}" class="btn btn-primary">
+                                Laporan Jual
+                            </a>  
+                            <a href="{{ route('laporan.laporanpenukaran') }}" class="btn btn-primary">
+                                Laporan Penukaran
+                            </a>
                         </li>
                     </ul>
+                    {{-- Form Pencarian --}}
+                    <form action="{{ route('laporan.beli') }}" method="GET" class="mt-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tanggal_awal">Tanggal Awal</label>
+                                    <input type="date" name="tanggal_awal" class="form-control" value="{{ $tanggal_awal ?? '' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tanggal_akhir">Tanggal Akhir</label>
+                                    <input type="date" name="tanggal_akhir" class="form-control" value="{{ $tanggal_akhir ?? '' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <div class="input-group">
+                                        <input type="text" name="keyword" class="form-control" placeholder="Cari..." value="{{ $keyword ?? '' }}">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Cari</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
-                    @include('test.components.modaltambah')
 
-                    <h5 class="card-title">Daftar Sampah</h5>
+                    <h5 class="card-title"></h5>
                 {{-- data pengalaman kerja --}}
-                <div class="table-responsive">
+                    <div class="table-responsive">
                     <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Sampah</th>
-                                <th>Jenis Sampah</th>
-                                <th>Jumlah Sampah</th>
-                                <th>Point Per KG</th>
-                                <th>Harga Per KG</th>
-                                <th>Order</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($daftar_sampah as $ds)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ds->nama_sampah }}</td>
-                                <td>{{ $ds->jenis_sampah }}</td>
-                                <td>{{ $ds->jumlah_sampah }}</td>
-                                <td>{{ $ds->point }}</td>
-                                <td>{{ $ds->harga_jual }}</td>
-                                
-                                <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal-{{ $ds->id_sampah }}">
-                                        Edit
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Kode Transaksi</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
+                            <th>Nama Pegawai</th>
+                            <th>ID Pelanggan</th>
+                            <th>Total Point</th>
+                            <th>Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($laporan_beli as $key => $lb)
+                        <tr>
+                            <td>{{ $laporan_beli->firstitem() + $key }}</td>
+                            <td>{{ $lb->kode_transaksi }}</td>
+                            <td>{{ $lb->tanggal }}</td>
+                            <td>{{ $lb->waktu }}</td>
+                            <td>{{ $lb->nama_lengkap }}</td>
+                            <td>{{ $lb->id_pengguna }}</td>
+                            <td>{{ $lb->total_point }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#editModal-{{ $lb->kode_transaksi }}">
+                                        Detail
                                     </button>
-                                    <form action="{{ route('daftarsampah.destroy', $ds->id_sampah) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                    </form>
                                 </td>
-                            </tr>
+                        </tr>
+                        @include('test.components.laporanorder')
+                        @endforeach
+                    </tbody>
+                </table>
 
-                            @include('test.components.modaledit')
-
-                                @endforeach
-                        </tbody>
-                    </table>
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $laporan_beli->appends(['keyword' => $keyword, 'tanggal_awal' => $tanggal_awal, 'tanggal_akhir' => $tanggal_akhir])->links('pagination::bootstrap-4') }}
+                </div>
                 </div>
             </div>
         </div>
     </section>
+                        
+                    
 
-    <section class="section dashboard">
-      <div class="row">
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
             <!-- Left side content -->
           </div>
         </div><!-- End Left side columns -->
+
         <!-- Right side columns -->
         <div class="col-lg-4">
           <!-- Right side content -->
         </div><!-- End Right side columns -->
+
       </div>
     </section>
 
@@ -200,4 +225,3 @@
 </body>
 
 </html>
-

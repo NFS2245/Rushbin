@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Laporan Beli</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
@@ -52,6 +53,12 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
 
         
 
@@ -81,7 +88,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Sampah</h1>
+      <h1>Pickup</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
@@ -94,60 +101,33 @@
             <div class="card text-center">
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#basicModal">
-                                Tambah Data
-                            </button>
-                        </li>
                     </ul>
-
-                    @include('test.components.modaltambah')
-
-                    <h5 class="card-title">Daftar Sampah</h5>
+                    <h5 class="card-title"></h5>
                 {{-- data pengalaman kerja --}}
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Sampah</th>
-                                <th>Jenis Sampah</th>
-                                <th>Jumlah Sampah</th>
-                                <th>Point Per KG</th>
-                                <th>Harga Per KG</th>
-                                <th>Order</th>
+                                <th>Id Pengantaran</th>
+                                <th>Nama Lengkap</th>
+                                <th>Alamat</th>
+                                <th>Tanggal</th>
+                                <th>order</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($daftar_sampah as $ds)
+                            @foreach ($pickup as $p)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ds->nama_sampah }}</td>
-                                <td>{{ $ds->jenis_sampah }}</td>
-                                <td>{{ $ds->jumlah_sampah }}</td>
-                                <td>{{ $ds->point }}</td>
-                                <td>{{ $ds->harga_jual }}</td>
+                                <td>{{ $p->id_pengantaran }}</td>
+                                <td>{{ $p->nama_lengkap }}</td>
+                                <td>{{ $p->alamat }}</td>
+                                <td>{{ $p->tanggal }}</td>
                                 
-                                <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal-{{ $ds->id_sampah }}">
-                                        Edit
-                                    </button>
-                                    <form action="{{ route('daftarsampah.destroy', $ds->id_sampah) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                    </form>
-                                </td>
                             </tr>
-
-                            @include('test.components.modaledit')
-
-                                @endforeach
-                        </tbody>
+                            @endforeach
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -155,21 +135,23 @@
     </section>
 
     <section class="section dashboard">
-      <div class="row">
+    <div class="row">
         <!-- Left side columns -->
         <div class="col-lg-8">
-          <div class="row">
+        <div class="row">
             <!-- Left side content -->
-          </div>
+        </div>
         </div><!-- End Left side columns -->
+
         <!-- Right side columns -->
         <div class="col-lg-4">
-          <!-- Right side content -->
+        <!-- Right side content -->
         </div><!-- End Right side columns -->
-      </div>
+
+    </div>
     </section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
@@ -200,4 +182,3 @@
 </body>
 
 </html>
-

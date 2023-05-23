@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Laporan Beli</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -52,9 +52,6 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
-
-        
-
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <!-- Notification Dropdown Items -->
           </ul><!-- End Notification Dropdown Items -->
@@ -81,7 +78,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Sampah</h1>
+      <h1>Transaksi Beli</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
@@ -95,77 +92,96 @@
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#basicModal">
-                                Tambah Data
+                            <a href="{{ route('transaksi.jual') }}" class="btn btn-primary">
+                                Transaksi Jual
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                          <div class="card-body">
+                        <form method="POST" action="{{ route('transaksibeli.tambah') }}">
+                          @csrf
+                          <div class="form-group">
+                            <div class="label-input">
+                              <label for="id_sampah">Id Sampah:</label>
+                              <input type="text" class="form-control custom-textbox" id="id_sampah" name="id_sampah" placeholder="Masukkan Id Sampah">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="label-input">
+                              <label for="jumlah_sampah">Total Sampah:</label>
+                              <input type="text" class="form-control custom-textbox" id="jumlah_sampah" name="jumlah_sampah" placeholder="Masukkan Total Sampah">
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-primary ">Tambah</button>
+                        </form>
+                      </div>
+                      <div class="table-responsive">
+                      <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Id Sampah</th>
+                            <th>Nama Sampah</th>
+                            <th>Total Sampah</th>
+                            <th>Harga Jual</th>
+                            <th>Total Point</th>
+                            <th>Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($filtered_transaksibeli as $tb)
+                        @php
+                            $daftarSampah = $daftar_sampah->firstWhere('id_sampah', $tb->id_sampah);
+                        @endphp
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $tb->id_sampah }}</td>
+                            <td>{{ $tb->nama_sampah }}</td>
+                            <td>{{ $tb->jumlah_sampah }}</td>
+                            @if ($daftarSampah)
+                                <td>{{ $daftarSampah->harga_jual }}</td>
+                                <td>{{ $tb->point }}</td>
+                            @endif
+                            <td>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal-{{ $tb->kode_transaksi }}">
+                                Bayar
                             </button>
-                        </li>
-                    </ul>
-
-                    @include('test.components.modaltambah')
-
-                    <h5 class="card-title">Daftar Sampah</h5>
-                {{-- data pengalaman kerja --}}
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Sampah</th>
-                                <th>Jenis Sampah</th>
-                                <th>Jumlah Sampah</th>
-                                <th>Point Per KG</th>
-                                <th>Harga Per KG</th>
-                                <th>Order</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($daftar_sampah as $ds)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ds->nama_sampah }}</td>
-                                <td>{{ $ds->jenis_sampah }}</td>
-                                <td>{{ $ds->jumlah_sampah }}</td>
-                                <td>{{ $ds->point }}</td>
-                                <td>{{ $ds->harga_jual }}</td>
-                                
-                                <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal-{{ $ds->id_sampah }}">
-                                        Edit
-                                    </button>
-                                    <form action="{{ route('daftarsampah.destroy', $ds->id_sampah) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-
-                            @include('test.components.modaledit')
-
-                                @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
+                            <form action="{{ route('transaksibeli.destroy', $tb->kode_transaksi) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Batalkan Transaksi?')">Batal</button>
+                    </form>
+                    
+                </td>
+            </tr>
+            @include('test.components.modalbayar')
+        @endforeach
+    </tbody>
+</table>
+      
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
 
     <section class="section dashboard">
       <div class="row">
+
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
             <!-- Left side content -->
           </div>
         </div><!-- End Left side columns -->
+
         <!-- Right side columns -->
         <div class="col-lg-4">
           <!-- Right side content -->
         </div><!-- End Right side columns -->
+
       </div>
     </section>
 
@@ -200,4 +216,3 @@
 </body>
 
 </html>
-

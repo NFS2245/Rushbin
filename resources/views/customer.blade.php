@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Laporan Beli</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -54,6 +54,7 @@
       <ul class="d-flex align-items-center">
 
         
+        
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <!-- Notification Dropdown Items -->
@@ -81,7 +82,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Daftar Sampah</h1>
+      <h1>Informasi Customer</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
@@ -94,47 +95,46 @@
             <div class="card text-center">
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#basicModal">
-                                Tambah Data
-                            </button>
+                        <li class="nav-item">                           
                         </li>
                     </ul>
-
-                    @include('test.components.modaltambah')
-
-                    <h5 class="card-title">Daftar Sampah</h5>
+                    <h5 class="card-title"></h5>
                 {{-- data pengalaman kerja --}}
+                
                 <div class="table-responsive">
                     <table class="table table-striped">
-                        <thead>
+                    <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Sampah</th>
-                                <th>Jenis Sampah</th>
-                                <th>Jumlah Sampah</th>
-                                <th>Point Per KG</th>
-                                <th>Harga Per KG</th>
-                                <th>Order</th>
+                                <th>Id Pengguna</th>
+                                <th>Nama Lengkap</th>
+                                <th>Nomer Telepon</th>
+                                <th>Alamat</th>
+                                <th>order</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($daftar_sampah as $ds)
+                            @foreach ($customer as $c)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ds->nama_sampah }}</td>
-                                <td>{{ $ds->jenis_sampah }}</td>
-                                <td>{{ $ds->jumlah_sampah }}</td>
-                                <td>{{ $ds->point }}</td>
-                                <td>{{ $ds->harga_jual }}</td>
-                                
+                                <td>{{ $c->id_pengguna }}</td>
+                                <td>{{ $c->nama_lengkap }}</td>
+                                <td>{{ $c->telepon }}</td>
                                 <td>
+                                    <select name="alamat" class="form-control">
+                                    <!-- <option value="">Pilih Alamat</option> -->
+                                    <option value="{{ $c->alamat1 }}">{{ $c->alamat1 }}</option>
+                                    <option value="{{ $c->alamat2 }}">{{ $c->alamat2 }}</option>
+                                    <option value="{{ $c->alamat3 }}">{{ $c->alamat3 }}</option>
+                                </select>
+                            </td>
+                            <td>{{ $c->order }}</td>
+                            <td>
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal-{{ $ds->id_sampah }}">
+                                        data-bs-target="#editModal-{{ $c->id_pengguna }}">
                                         Edit
                                     </button>
-                                    <form action="{{ route('daftarsampah.destroy', $ds->id_sampah) }}" method="POST"
+                                    <form action="{{ route('customer.destroy', $c->id_pengguna) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -142,11 +142,9 @@
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                     </form>
                                 </td>
-                            </tr>
-
-                            @include('test.components.modaledit')
-
-                                @endforeach
+                          </tr>
+                          @include('test.components.customermodal')
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -156,16 +154,19 @@
 
     <section class="section dashboard">
       <div class="row">
+
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
             <!-- Left side content -->
           </div>
         </div><!-- End Left side columns -->
+
         <!-- Right side columns -->
         <div class="col-lg-4">
           <!-- Right side content -->
         </div><!-- End Right side columns -->
+
       </div>
     </section>
 
@@ -200,4 +201,3 @@
 </body>
 
 </html>
-
