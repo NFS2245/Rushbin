@@ -14,7 +14,7 @@
 
 body {
     font-family: "Open Sans", sans-serif;
-    background: #f6f9ff;
+    background: #f7fff8;
     color: #444444;
 }
 
@@ -63,7 +63,7 @@ h6 {
     font-size: 24px;
     margin-bottom: 0;
     font-weight: 600;
-    color: #012970;
+    color: #00ad1d;
 }
 
 /*--------------------------------------------------------------
@@ -196,6 +196,10 @@ h6 {
     }
 }
 
+.form-group {
+    margin-bottom: 10px; /* Atur jarak antara dua form sesuai kebutuhan (misalnya 20px) */
+}
+
 /* Light Backgrounds */
 .bg-primary-light {
     background-color: #cfe2ff;
@@ -242,7 +246,7 @@ h6 {
 
 .card-header,
 .card-footer {
-    border-color: #ebeef4;
+    border-color: #fff;
     background-color: #fff;
     color: #798eb3;
     padding: 15px;
@@ -280,6 +284,21 @@ h6 {
 /* Close Button */
 .btn-close {
     background-size: 25%;
+}
+
+.btn.btn-primary {
+    background-color: #0f5a1d;
+    color: white;
+    border-color: #edffef;
+}
+
+.btn.btn-primary:hover {
+    background-color: #0f5a1d;
+}
+.active > .page-link {
+    background-color: #0f5a1d;
+    color: white;
+    border-color: #0f5a1d;
 }
 
 .btn-close:focus {
@@ -388,7 +407,7 @@ h6 {
 .logo span {
     font-size: 26px;
     font-weight: 700;
-    color: #012970;
+    color: #00ad1d;
     font-family: "Nunito", sans-serif;
 }
 
@@ -408,7 +427,7 @@ h6 {
     padding-left: 10px;
     padding-right: 40px;
     cursor: pointer;
-    color: #012970;
+    color: #2fbc47;
 }
 
 .header .search-bar {
@@ -706,10 +725,30 @@ h6 {
     border-radius: 4px;
 }
 
+.custom-textbox {
+    width: 400px; /* Atur lebar yang diinginkan di sini */
+}
+
 .sidebar-nav .nav-link i {
     font-size: 16px;
     margin-right: 10px;
     color: #000000;
+}
+
+.label-input {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Label akan mengambil lebar yang dibutuhkan, sementara input akan mengisi sisa ruang */
+    gap: 20px; /* Jarak antara label dan input */
+    align-items: center; /* Mengatur posisi vertikal ke tengah */
+    margin-bottom: 10px;
+}
+
+.label-input label {
+    min-width: 120px;
+    margin-right: 10px;
+}
+.label-input label {
+    min-width: 120px; /* Atur lebar minimum label, sesuaikan dengan kebutuhan */
 }
 
 .sidebar-nav .nav-link.collapsed {

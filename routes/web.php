@@ -27,7 +27,62 @@ Route::post('/logout', [AuthController::class, 'destroy'])
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    //dashboard
+    Route::get('/dashboard',[App\Http\Controllers\DaftarSampahController::class,'daftarsampah'])
+    ->name('dashboard');
+    Route::post('/dashboard',[App\Http\Controllers\DaftarSampahController::class,'store'])
+    ->name('daftarsampah.tambah');
+    Route::delete('/dashboard/{id_sampah}', [App\Http\Controllers\DaftarSampahController::class, 'destroy'])
+    ->name('daftarsampah.destroy');
+    Route::put('/dashboard/{id_sampah}', [App\Http\Controllers\DaftarSampahController::class, 'update'])
+    ->name('daftarsampah.update');
+
+    //transaksi jual
+    Route::get('/transaksi_jual',[App\Http\Controllers\TransaksiController::class,'transaksijual'])
+    ->name('transaksi.jual');
+    Route::post('/transaksi_jual',[App\Http\Controllers\TransaksiController::class,'store'])
+    ->name('transaksijual.tambah');
+    Route::post('/transaksi_jual_bayar',[App\Http\Controllers\TransaksiController::class,'store2'])
+    ->name('transaksijual.bayar');
+    Route::delete('/transaksi_jual_bayar/{kode_transaksi}',[App\Http\Controllers\TransaksiController::class,'destroyjual'])
+    ->name('transaksijual.destroy');
+
+    //transaksi beli
+    Route::get('/transaksi_beli',[App\Http\Controllers\TransaksiController::class,'transaksibeli'])
+    ->name('transaksi.beli');
+    Route::post('/transaksi_beli',[App\Http\Controllers\TransaksiController::class,'storebeli'])
+    ->name('transaksibeli.tambah');
+    Route::post('/transaksi_jual_beli/{kode_transaksi}',[App\Http\Controllers\TransaksiController::class,'store3'])
+    ->name('transaksibeli.bayar');
+    Route::delete('/transaksi_jual_beli/{kode_transaksi}',[App\Http\Controllers\TransaksiController::class,'destroybeli'])
+    ->name('transaksibeli.destroy');
+
+    //laporan beli
+    Route::get('/laporan_beli',[App\Http\Controllers\LaporanController::class,'laporanbeli'])
+    ->name('laporan.beli');
+    Route::get('/laporan_beli/{kode_transaksi}',[App\Http\Controllers\LaporanController::class,'laporanorder'])
+    ->name('laporan.order');
+
+    //laporan jual
+    Route::get('/laporan_jual',[App\Http\Controllers\LaporanController::class,'laporanjual'])
+    ->name('laporan.jual');
+    Route::get('/laporan_jual/{kode_transaksi}',[App\Http\Controllers\LaporanController::class,'laporanorderjual'])
+    ->name('laporan.orderjual');
+
+    Route::get('/laporan_penukaran',[App\Http\Controllers\LaporanController::class,'laporanpenukaran'])
+    ->name('laporan.laporanpenukaran');
+
+    Route::get('/pickup',[App\Http\Controllers\PickupController::class,'pickup'])
+    ->name('pickup');
+
+    Route::get('/customer',[App\Http\Controllers\CustomerController::class,'customer'])
+    ->name('customer');
+    Route::put('/customer/{id_pengguna}',[App\Http\Controllers\CustomerController::class,'update'])
+    ->name('customer.update');
+    Route::delete('/customer/{id_pengguna}',[App\Http\Controllers\CustomerController::class,'destroy'])
+    ->name('customer.destroy');
+
+    
+
+    Route::get('/logout',[App\Http\Controllers\AuthController::class,'logout']);
 });
