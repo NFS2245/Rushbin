@@ -22,7 +22,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form id="pengalaman_kerja_form" method="POST"
+                                <form id="Tamabah Form" method="POST"
                                     action="{{ route('daftarsampah.tambah') }}">
                                     @csrf
                                     <div class="modal-body">
