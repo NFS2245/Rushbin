@@ -7,7 +7,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form id="edit_pengalaman_kerja_form" method="POST"
+                                        <form id="edit" method="POST"
                                             action="{{ route('customer.update', $c->id_pengguna) }}">
                                             @csrf
                                             @method('PUT')

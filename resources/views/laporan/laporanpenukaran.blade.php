@@ -18,16 +18,16 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="backend/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="backend/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="backend/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="backend/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="backend/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="backend/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="backend/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="backend/assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
@@ -84,8 +84,8 @@
       <h1>Laporan Penukaran</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="laporan_beli">Laporan</a></li>
+          <li class="breadcrumb-item active">Laporan Penukaran</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -96,11 +96,11 @@
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
+                            <a href="{{ route('laporan.jual') }}" class="btn btn-primary">
+                                Laporan Jual
+                            </a>  
                             <a href="{{ route('laporan.beli') }}" class="btn btn-primary">
                                 Laporan Beli
-                            </a>  
-                            <a href="{{ route('laporan.laporanpenukaran') }}" class="btn btn-primary">
-                                Laporan Penukaran
                             </a>
                         </li>
                     </ul>
@@ -135,35 +135,86 @@
 
 
                     <h5 class="card-title"></h5>
-                {{-- data pengalaman kerja --}}
-                    <div class="table-responsive">
-                    <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Kode Transaksi</th>
-                            <th>Tanggal</th>
-                            <th>Waktu</th>
-                            <th>Id Pelanggan</th>
-                            <th>Point</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($laporan_penukaran as $key => $lp)
-                        <tr>
-                            <td>{{ $laporan_penukaran->firstitem() + $key }}</td>
-                            <td>{{ $lp->id_penukaran }}</td>
-                            <td>{{ $lp->tanggal }}</td>
-                            <td>{{ $lp->waktu }}</td>
-                            <td>{{ $lp->id_pengguna }}</td>
-                            <td>{{ $lp->point }}</td>
-                            <td>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                {{-- data Penukaran --}}
+                <div class="table-responsive">
+                <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Kode Transaksi</th>
+            <th>Tanggal</th>
+            <th>Waktu</th>
+            <th>Id Pelanggan</th>
+            <th>Point</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @php
+            $count = 1;
+            $status1Data = [];
+        @endphp
+        @foreach ($laporan_penukaran as $key => $lp)
+            @if ($lp->status == 1)
+                <tr>
+                    <td>{{ $count }}</td>
+                    <td>{{ $lp->id_penukaran }}</td>
+                    <td>{{ $lp->tanggal }}</td>
+                    <td>{{ $lp->waktu }}</td>
+                    <td>{{ $lp->id_pengguna }}</td>
+                    <td>{{ $lp->point }}</td>
+                    <td>
+                        <div class="status-container">
+                            <span class="status-pending">Pending</span>
+                            <br>
+                            <form action="{{ route('laporan.penukaran.update', $lp->id_penukaran) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success">Konfirmasi</button>
+                            </form>
+                            <form action="{{ route('laporan.penukaran.updategagal', $lp->id_penukaran) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger">Batal</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                  @php
+                        $count++;
+                  @endphp
+                @else
+                    @php
+                        $status1Data[] = $lp;
+                    @endphp
+                @endif
+            @endforeach
+
+            @foreach ($status1Data as $key => $lp)
+                <tr>
+                    <td>{{ $count }}</td>
+                    <td>{{ $lp->id_penukaran }}</td>
+                    <td>{{ $lp->tanggal }}</td>
+                    <td>{{ $lp->waktu }}</td>
+                    <td>{{ $lp->id_pengguna }}</td>
+                    <td>{{ $lp->point }}</td>
+                    <td>
+                        <div class="status-container">
+                            @if ($lp->status == 2)
+                                <span class="text-success font-weight-bold">Telah Dikonfirmasi</span>
+                            @elseif ($lp->status == 3)
+                                <span class="status-batal text-danger font-weight-bold">Telah Dibatalkan</span>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @php
+                    $count++;
+                @endphp
+            @endforeach
+        </tbody>
+    </table>
+    </div>
 
     <section class="section dashboard">
       <div class="row">
@@ -198,17 +249,17 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="backend/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="backend/assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="backend/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="backend/assets/vendor/quill/quill.min.js"></script>
+  <script src="backend/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="backend/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="backend/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="backend/assets/js/main.js"></script>
   
 
 </body>

@@ -5,8 +5,8 @@ use App\Models\LaporanBeli;
 use App\Models\LaporanJual;
 use App\Models\LaporanPenukaran;
 use App\Models\TransaksiBeli;
-
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -138,4 +138,24 @@ class LaporanController extends Controller
     
         return view('laporan.laporanpenukaran', compact('laporan_penukaran', 'keyword', 'tanggal_awal', 'tanggal_akhir'));
     }
+
+    public function update($id_penukaran)
+{
+    DB::table('penukaran')->where('id_penukaran', $id_penukaran)->update([
+        'status' => 2,
+    ]);
+
+    return redirect()->route('laporan.laporanpenukaran');
+}
+
+public function update2($id_penukaran)
+{
+    DB::table('penukaran')->where('id_penukaran', $id_penukaran)->update([
+        'status' => 3,
+    ]);
+
+    return redirect()->route('laporan.laporanpenukaran');
+}
+
+    
 }

@@ -10,7 +10,7 @@ class LaporanPenukaran extends Model
     use HasFactory;
     protected $table = 'penukaran';
     protected $fillable = [
-        'id_penukaran', 'id_pengguna', 'id_pengguna', 'point', 'tanggal', 'waktu' 
+        'id_penukaran', 'id_pengguna', 'id_pengguna', 'point', 'tanggal', 'waktu', 'status' 
     ];
     public $timestamps = false;
     public $incrementing = false;

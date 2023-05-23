@@ -14,7 +14,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingpage');
 });
 
 Route::get('/login', [AuthController::class, 'LoginPage'])->name('login');
@@ -27,6 +27,7 @@ Route::post('/logout', [AuthController::class, 'destroy'])
 
 
 Route::middleware('auth')->group(function () {
+
     //dashboard
     Route::get('/dashboard',[App\Http\Controllers\DaftarSampahController::class,'daftarsampah'])
     ->name('dashboard');
@@ -71,9 +72,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/laporan_penukaran',[App\Http\Controllers\LaporanController::class,'laporanpenukaran'])
     ->name('laporan.laporanpenukaran');
+    Route::put('/laporan_penukaran_Konfirmasi/{id_penukaran}', [App\Http\Controllers\LaporanController::class, 'update'])
+    ->name('laporan.penukaran.update');
+    Route::put('/laporan_penukaran_Batal/{id_penukaran}', [App\Http\Controllers\LaporanController::class, 'update2'])
+    ->name('laporan.penukaran.updategagal');
 
     Route::get('/pickup',[App\Http\Controllers\PickupController::class,'pickup'])
     ->name('pickup');
+    Route::put('/pickup_selesai/{id_pengantaran}',[App\Http\Controllers\PickupController::class,'update'])
+    ->name('pickup.pengantaran.selesai');
+    Route::put('/pickup_batal/{id_pengantaran}',[App\Http\Controllers\PickupController::class,'update2'])
+    ->name('pickup.pengantaran.batal');
 
     Route::get('/customer',[App\Http\Controllers\CustomerController::class,'customer'])
     ->name('customer');
