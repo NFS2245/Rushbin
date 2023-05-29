@@ -16,7 +16,6 @@
                     <p class="text-dark">Nama Sampah: {{ $lj->transaksiJual->nama_sampah }}</p>
                     <p class="text-dark">Jumlah Sampah: {{ $lj->transaksiJual->jumlah_sampah }}</p>
                     <p class="text-dark">Total: {{ $lj->transaksiJual->total }}</p>
-                    <!-- Tambahkan data lain yang ingin ditampilkan dari tabel transaksi beli -->
                 @endif
             </div>
         </div>

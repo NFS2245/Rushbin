@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Laporan Beli</title>
+  <title>Transaksi Beli</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -86,10 +86,23 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    <section class="section dashboard">
+    <section class="section Transaksi">
         <div class="row">
             <div class="card text-center">
                 <div class="card-header">
+                @if(session('success'))
+                    <br>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
                             <a href="{{ route('transaksi.jual') }}" class="btn btn-primary">
@@ -104,14 +117,19 @@
                           @csrf
                           <div class="form-group">
                             <div class="label-input">
-                              <label for="id_sampah">Id Sampah:</label>
-                              <input type="text" class="form-control custom-textbox" id="id_sampah" name="id_sampah" placeholder="Masukkan Id Sampah" required>
+                                <label for="id_sampah">Id Sampah:</label>
+                                <select class="form-control custom-textbox" id="id_sampah" name="id_sampah" required>
+                                    <option value="">Pilih Id Sampah</option>
+                                    @foreach ($daftar_sampah as $sampah)
+                                        <option value="{{ $sampah->id_sampah }}">{{ $sampah->id_sampah }} - {{ $sampah->nama_sampah }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                          </div>
+                        </div>
                           <div class="form-group">
                             <div class="label-input">
                               <label for="jumlah_sampah">Total Sampah:</label>
-                              <input type="text" class="form-control custom-textbox" id="jumlah_sampah" name="jumlah_sampah" placeholder="Masukkan Total Sampah" required>
+                              <input type="number" class="form-control custom-textbox" id="jumlah_sampah" name="jumlah_sampah" placeholder="Masukkan Total Sampah" required>
                             </div>
                           </div>
                           <button type="submit" class="btn btn-primary ">Tambah</button>

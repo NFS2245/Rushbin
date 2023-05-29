@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
-class AuthController extends Controller
-{
+    class AuthController extends Controller
+    {
+    //masuk ke halaman login 
     public function LoginPage()
     {
         return view('auth.signin');
@@ -17,13 +18,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        //digunakan untuk memvalidasi
         $request->validate([
+            // Memvalidasi bahwa field 'username' harus diisi dan harus berupa email.
             'username' => ['required', 'email'],
+            // Memvalidasi bahwa field 'password' harus diisi.
             'password' => ['required'],
         ]);
-
+        //mencari data username dari model tabel akun
         $akun = Akun::where('username', $request->username)->first();
-
+        //jika akun tidak ditemukan maka akan kembali dengan error akun tidak terdaftar
         if (!$akun) {
             return back()
                 ->withErrors([
@@ -31,7 +35,8 @@ class AuthController extends Controller
                 ])
                 ->withInput();
         }
-
+        //meminta request password pada tabel akun dengan md5, 
+        //jika error maka akan kembali dengan pesan error
         if (md5($request->password) !== $akun->password) {
             return back()
                 ->withErrors([
@@ -39,7 +44,7 @@ class AuthController extends Controller
                 ])
                 ->withInput();
         }
-
+        //jika role akun bukan admin maka akan kembali ke login degan error
         if ($akun->role != 'admin') {
             return back()
                 ->withErrors([
@@ -47,14 +52,20 @@ class AuthController extends Controller
                 ])
                 ->withInput();
         }
-
+        //auth login jika berhasil dan akan masuk ke halaman dashboard dengan pesan
         Auth::login($akun);
         Session::flash('berhasilLogin', 'Login Berhasil!');
         return redirect()->route('dashboard');
     }
     
-    function logout(){
+    //fungsi logout, yang akan mengembalikan ke landingpage
+    function logout(Request $request){
         Auth::logout();
-        return redirect('');
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        Session::flash('logout', 'Logout Berhasil!');
+        return redirect('/login');
     }
 }

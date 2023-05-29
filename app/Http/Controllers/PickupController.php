@@ -3,25 +3,28 @@ namespace App\Http\Controllers;
 use App\Models\Pickup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 
 class PickupController extends Controller
 {   
     //Tampilan Data
-    public function pickup(Request $request) {
-        $keyword = $request->input('keyword');
-        $pickup = Pickup::query();
+    public function pickup(Request $request)
+{
+    $keyword = $request->input('keyword');
+    $pickup = Pickup::query();
 
-        if ($keyword) {
-            $pickup->where(function ($query) use ($keyword) {
-                $query->where('id_pengantaran', 'like', "%$keyword%")
+    if ($keyword) {
+        $pickup->where(function ($query) use ($keyword) {
+            $query->where('id_pengantaran', 'like', "%$keyword%")
                 ->orWhere('nama_lengkap', 'like', "%$keyword%")
                 ->orWhere('alamat', 'like', "%$keyword%");
-            });
-        }
-
-        return view('pickup', compact('pickup', 'keyword'));
+        });
     }
+
+    return view('pickup', compact('pickup', 'keyword'));
+}
+
 
     public function update($id_pengantaran)
     {
@@ -40,4 +43,16 @@ class PickupController extends Controller
 
     return redirect()->route('pickup');
     }
+
+//     public function getBlobImage($id_pengantaran)
+// {
+//     $pickup = Pickup::where('id_pengantaran', $id_pengantaran)->firstOrFail();
+
+//     $imageData = $pickup->gambar1;
+//     $headers = [
+//         'Content-Type' => 'image/png',
+//     ];
+
+//     return response($imageData, 200, $headers);
+// }
 }

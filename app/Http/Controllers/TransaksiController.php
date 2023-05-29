@@ -7,6 +7,7 @@ use App\Models\LaporanBeli;
 use App\Models\LaporanJual;
 use App\Models\Pegawai;
 use App\Models\TransaksiBeli;
+use App\Models\InformasiCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class TransaksiController extends Controller
         return view('transaksi.transaksijual');
     }
 
+    //untuk tampilan transaksi jual, dan menampilkan tabel
     public function transaksijual() {
         $transaksi_jual = TransaksiJual::all();
         $daftar_sampah = DaftarSampah::all();
@@ -30,16 +32,26 @@ class TransaksiController extends Controller
         return view('transaksi.transaksijual', compact('filtered_transaksi', 'daftar_sampah'));
     }
 
+    //untuk menambah transaksi baru
     public function store(Request $request): RedirectResponse
-    {
+{
     $this->validate($request, [
         'id_sampah' => 'required',
         'jumlah_sampah' => 'required',
     ]);
 
+    // Mengambil data dari model daftar_sampah berdasarkan id_sampah
     $daftarSampah = DaftarSampah::findOrFail($request->id_sampah);
+
+    // Memeriksa jika jumlah_sampah lebih besar dari jumlah_sampah pada daftar_sampah
+    if ($request->jumlah_sampah > $daftarSampah->jumlah_sampah) {
+        return redirect()->route('transaksi.jual')->with(['error' => 'Jumlah sampah melebihi stok yang tersedia']);
+    }
+
+    // Mengambil data jumlah sampah dan mengkalikan dengan harga jual
     $totalSampah = $request->jumlah_sampah * $daftarSampah->harga_jual;
 
+    // Menambah data
     TransaksiJual::create([
         'id_sampah' => $daftarSampah->id_sampah,
         'nama_sampah' => $daftarSampah->nama_sampah,
@@ -47,12 +59,12 @@ class TransaksiController extends Controller
         'total' => $totalSampah,
     ]);
 
-    
     return redirect()->route('transaksi.jual')->with(['success' => 'Berhasil Ditambah, Silahkan Bayar!']);
-    }
+}
 
+    //fitur bayar
     public function store2(Request $request): RedirectResponse
-{
+    {
     $username = Auth::user()->username;
 
     $pegawai = Pegawai::where('username', $username)->first();
@@ -81,16 +93,15 @@ class TransaksiController extends Controller
         'kode_transaksi' => $request->kode_transaksi,
         'nama_lengkap' => $pegawai->nama_lengkap,
         'total_pembelian' => $totalPembelian,
-        // tambahkan atribut lain sesuai kebutuhan
     ]);
 
     // Mengupdate jumlah_sampah pada daftar_sampah
     $daftarSampah = DaftarSampah::find($transaksiJual->id_sampah);
-    $daftarSampah->jumlah_sampah += $transaksiJual->jumlah_sampah;
+    $daftarSampah->jumlah_sampah -= $transaksiJual->jumlah_sampah;
     $daftarSampah->save();
 
-    return redirect()->route('transaksi.jual')->with(['success' => 'Berhasil Ditambah, Silahkan Bayar!']);
-}
+    return redirect()->route('transaksi.jual')->with(['success' => 'Transaksi Berhasil']);
+    }
 
     public function destroyjual($kode_transaksi)
     {
@@ -100,7 +111,7 @@ class TransaksiController extends Controller
             $transaksi_jual->delete();
 
             return redirect()->route('transaksi.jual')
-                ->with('success', 'Batal Membayar');
+                ->with('success', 'Transaksi Dibatalkan');
         }
 
         return redirect()->route('transaksi.jual')
@@ -122,7 +133,12 @@ class TransaksiController extends Controller
         'jumlah_sampah' => 'required',
     ]);
 
-    $daftarSampah = DaftarSampah::findOrFail($request->id_sampah);
+    $daftarSampah = DaftarSampah::find($request->id_sampah);
+
+    if (!$daftarSampah) {
+        return redirect()->route('transaksi.beli')->with(['error' => 'Data tidak ditemukan']);
+    }
+
     $totalPoint = $request->jumlah_sampah * $daftarSampah->point;
 
     TransaksiBeli::create([
@@ -132,12 +148,12 @@ class TransaksiController extends Controller
         'point' => $totalPoint,
     ]);
 
-    
     return redirect()->route('transaksi.beli')->with(['success' => 'Berhasil Ditambah, Silahkan Bayar!']);
     }
 
     public function transaksibeli()
     {
+    $daftar_pengguna = InformasiCustomer::all();
     $transaksi_beli = TransaksiBeli::all();
     $daftar_sampah = DaftarSampah::all();
     $laporan_beli = LaporanBeli::all();
@@ -145,11 +161,11 @@ class TransaksiController extends Controller
         return $laporan_beli->contains('kode_transaksi', $tb->kode_transaksi);
     });
 
-    return view('transaksi.transaksibeli', compact('filtered_transaksibeli', 'daftar_sampah'));
+    return view('transaksi.transaksibeli', compact('filtered_transaksibeli', 'daftar_sampah', 'daftar_pengguna'));
     }
 
     public function store3(Request $request): RedirectResponse
-{
+    {
     $username = Auth::user()->username;
     $this->validate($request, [
         'id_pengguna' => 'required',
@@ -183,16 +199,26 @@ class TransaksiController extends Controller
         'nama_lengkap' => $pegawai->nama_lengkap,
         'total_point' => $totalPoint,
         'id_pengguna' => $request->id_pengguna,
-        // tambahkan atribut lain sesuai kebutuhan
     ]);
 
     // Mengupdate jumlah_sampah pada daftar_sampah
     $daftarSampah = DaftarSampah::find($transaksiBeli->id_sampah);
     $daftarSampah->jumlah_sampah += $transaksiBeli->jumlah_sampah;
     $daftarSampah->save();
+    $pengguna = InformasiCustomer::find($request->id_pengguna);
+    if (!$pengguna) {
+        return back()
+            ->withErrors([
+                'id_pengguna' => 'Pengguna tidak ditemukan!',
+            ])
+            ->withInput();
+    }
+    $pengguna->point += $totalPoint;
+    $pengguna->save();
 
-    return redirect()->route('transaksi.beli')->with(['success' => 'Berhasil Ditambah, Silahkan Bayar!']);
-}
+
+    return redirect()->route('transaksi.beli')->with(['success' => 'Transaksi Berhasil']);
+    }
 
     public function destroybeli($kode_transaksi)
     {
@@ -202,7 +228,7 @@ class TransaksiController extends Controller
             $transaksi_beli->delete();
 
             return redirect()->route('transaksi.beli')
-                ->with('success', 'Batal Membayar');
+                ->with('success', 'Transaksi Dibatalkan');
         }
 
         return redirect()->route('transaksi.beli')

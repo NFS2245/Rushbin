@@ -101,7 +101,7 @@ class LaporanController extends Controller
             'total_pembelian' => $request->total_pembelian,
         ]);
         return redirect()->route('laporan_jual')
-            ->with('success', 'Data berhasil diupdate.');
+            ->with('success', '');
     }
     
 
@@ -140,22 +140,22 @@ class LaporanController extends Controller
     }
 
     public function update($id_penukaran)
-{
+    {
     DB::table('penukaran')->where('id_penukaran', $id_penukaran)->update([
         'status' => 2,
     ]);
 
     return redirect()->route('laporan.laporanpenukaran');
-}
+    }
 
-public function update2($id_penukaran)
-{
+    public function update2($id_penukaran)
+    {
     DB::table('penukaran')->where('id_penukaran', $id_penukaran)->update([
         'status' => 3,
     ]);
 
     return redirect()->route('laporan.laporanpenukaran');
-}
+    }
 
     
 }

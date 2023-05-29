@@ -15,8 +15,7 @@
                 @if ($lb->transaksiBeli)
                     <p class="text-dark">Nama Sampah: {{ $lb->transaksiBeli->nama_sampah }}</p>
                     <p class="text-dark">Jumlah Sampah: {{ $lb->transaksiBeli->jumlah_sampah }}</p>
-                    <p class="text-dark">Total: {{ $lb->transaksiBeli->total }}</p>
-                    <!-- Tambahkan data lain yang ingin ditampilkan dari tabel transaksi beli -->
+                    <p class="text-dark">Total: {{ $lb->transaksiBeli->point }}</p>
                 @endif
             </div>
         </div>

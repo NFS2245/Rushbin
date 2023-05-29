@@ -215,6 +215,10 @@
         </tbody>
     </table>
     </div>
+                </div>
+      </div>
+      </div>
+    </section>
 
     <section class="section dashboard">
       <div class="row">
