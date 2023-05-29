@@ -17,10 +17,11 @@ Route::get('/', function () {
     return view('landingpage');
 });
 
+//untuk masuk ke halaman login
 Route::get('/login', [AuthController::class, 'LoginPage'])->name('login');
-
+//untuk melakukan login
 Route::post('/login', [AuthController::class, 'login']);
-
+//untuk logout
 Route::post('/logout', [AuthController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
@@ -31,10 +32,13 @@ Route::middleware('auth')->group(function () {
     //dashboard
     Route::get('/dashboard',[App\Http\Controllers\DaftarSampahController::class,'daftarsampah'])
     ->name('dashboard');
+    //untuk tambah sampah
     Route::post('/dashboard',[App\Http\Controllers\DaftarSampahController::class,'store'])
     ->name('daftarsampah.tambah');
+    //untuk delete data pada daftar sampah
     Route::delete('/dashboard/{id_sampah}', [App\Http\Controllers\DaftarSampahController::class, 'destroy'])
     ->name('daftarsampah.destroy');
+    //untuk update pada daftar sampah
     Route::put('/dashboard/{id_sampah}', [App\Http\Controllers\DaftarSampahController::class, 'update'])
     ->name('daftarsampah.update');
 
@@ -70,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan_jual/{kode_transaksi}',[App\Http\Controllers\LaporanController::class,'laporanorderjual'])
     ->name('laporan.orderjual');
 
+    //laporan penukaran
     Route::get('/laporan_penukaran',[App\Http\Controllers\LaporanController::class,'laporanpenukaran'])
     ->name('laporan.laporanpenukaran');
     Route::put('/laporan_penukaran_Konfirmasi/{id_penukaran}', [App\Http\Controllers\LaporanController::class, 'update'])
@@ -77,13 +82,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/laporan_penukaran_Batal/{id_penukaran}', [App\Http\Controllers\LaporanController::class, 'update2'])
     ->name('laporan.penukaran.updategagal');
 
+    //pickup
     Route::get('/pickup',[App\Http\Controllers\PickupController::class,'pickup'])
     ->name('pickup');
     Route::put('/pickup_selesai/{id_pengantaran}',[App\Http\Controllers\PickupController::class,'update'])
     ->name('pickup.pengantaran.selesai');
     Route::put('/pickup_batal/{id_pengantaran}',[App\Http\Controllers\PickupController::class,'update2'])
     ->name('pickup.pengantaran.batal');
+    Route::get('/pickup/detail/{id_pengantaran}', [App\Http\Controllers\PickupController::class,'getBlobImage'])->name('pickup.getBlobImage');
 
+    //customer
     Route::get('/customer',[App\Http\Controllers\CustomerController::class,'customer'])
     ->name('customer');
     Route::put('/customer/{id_pengguna}',[App\Http\Controllers\CustomerController::class,'update'])
@@ -91,7 +99,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/customer/{id_pengguna}',[App\Http\Controllers\CustomerController::class,'destroy'])
     ->name('customer.destroy');
 
-    
-
+    //logout
     Route::get('/logout',[App\Http\Controllers\AuthController::class,'logout']);
 });

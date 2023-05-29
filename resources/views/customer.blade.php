@@ -93,6 +93,19 @@
         <div class="row">
             <div class="card text-center">
                 <div class="card-header">
+                @if(session('success'))
+                    <br>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">                           
                         </li>
@@ -105,7 +118,7 @@
                     <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Id Pengguna</th>
+                                <th>Id Pelanggan</th>
                                 <th>Nama Lengkap</th>
                                 <th>Nomer Telepon</th>
                                 <th>Alamat</th>

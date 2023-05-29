@@ -131,6 +131,13 @@
                             <td>{{ $p->alamat }}</td>
                             <td>{{ $p->tanggal }}</td>
                             <td>
+                            <!-- <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editModal-{{ $p->id_pengantaran }}">
+                                        Detail
+                                    </button> -->
+                            <!-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal-{{ $p->id_pengantaran }}" onclick="redirectToDetail('{{ route('pickup.getBlobImage', ['id_pengantaran' => $p->id_pengantaran]) }}')">
+    Detail
+</button> -->
                                 @if ($p->status == 1)
                                     <form action="{{ route('pickup.pengantaran.selesai', $p->id_pengantaran) }}" method="POST" class="d-inline">
                                         @csrf
@@ -146,6 +153,7 @@
                                 @endif
                             </td>
                         </tr>
+                        @include('test.components.modalpickup')
                     @endforeach
                 </tbody>
             </table>
@@ -197,7 +205,12 @@
   <script src="backend/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="backend/assets/js/main.js"></script>
+  <!-- <script src="backend/assets/js/main.js"></script>
+  <script>
+    function redirectToDetail(route) {
+        window.location.href = route;
+    }
+</script> -->
   
 
 </body>

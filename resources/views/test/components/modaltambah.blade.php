@@ -1,5 +1,5 @@
 <!-- Show success or error message after form submission -->
-@if(session('success'))
+                    @if(session('success'))
                     <br>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}

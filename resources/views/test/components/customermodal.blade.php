@@ -26,8 +26,7 @@
 
                                                 <div class="form-group mb-3">
                                                     <label for="telepon">No HP</label>
-                                                    <input type="text" class="form-control" name="telepon" id="telepon"
-                                                        value="{{ $c->telepon }}" required>
+                                                    <input type="number" class="form-control" name="telepon" id="telepon" value="{{ $c->telepon }}" required minlength="10" maxlength="13">
                                                 </div>
 
                                                 <div class="form-group mb-3">
