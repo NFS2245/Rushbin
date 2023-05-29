@@ -141,12 +141,31 @@ class LaporanController extends Controller
 
     public function update($id_penukaran)
     {
+    $penukaran = DB::table('penukaran')->where('id_penukaran', $id_penukaran)->first();
+    $id_pengguna = $penukaran->id_pengguna;
+    $point = $penukaran->point;
+
+    $pengguna = DB::table('pengguna')->where('id_pengguna', $id_pengguna)->first();
+    $total_point_saat_ini = $pengguna->point;
+
+    if ($point > $total_point_saat_ini) {
+        // Tampilkan pesan error atau lakukan tindakan lain jika point tidak mencukupi
+        return redirect()->back()->with('error', 'Point tidak mencukupi.');
+    }
+
+    $total_point_baru = $total_point_saat_ini - $point;
+
+    DB::table('pengguna')->where('id_pengguna', $id_pengguna)->update([
+        'point' => $total_point_baru,
+    ]);
+
     DB::table('penukaran')->where('id_penukaran', $id_penukaran)->update([
         'status' => 2,
     ]);
 
     return redirect()->route('laporan.laporanpenukaran');
     }
+
 
     public function update2($id_penukaran)
     {

@@ -1,6 +1,3 @@
-
-
-
 {{-- // modal order --}}
 <div class="modal fade" id="editModal-{{ $lb->kode_transaksi }}" tabindex="-1">
     <div class="modal-dialog">

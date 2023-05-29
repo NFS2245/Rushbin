@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="backend/assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -143,7 +143,7 @@
                             <th>Id Sampah</th>
                             <th>Nama Sampah</th>
                             <th>Total Sampah</th>
-                            <th>Harga Jual</th>
+                            <th>Point</th>
                             <th>Total Point</th>
                             <th>Order</th>
                         </tr>
@@ -159,7 +159,7 @@
                             <td>{{ $tb->nama_sampah }}</td>
                             <td>{{ $tb->jumlah_sampah }}</td>
                             @if ($daftarSampah)
-                                <td>{{ $daftarSampah->harga_jual }}</td>
+                                <td>{{ $daftarSampah->point }}</td>
                                 <td>{{ $tb->point }}</td>
                             @endif
                             <td>
