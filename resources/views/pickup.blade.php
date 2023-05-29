@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="backend/assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -135,9 +135,9 @@
                                         data-bs-target="#editModal-{{ $p->id_pengantaran }}">
                                         Detail
                                     </button> -->
-                            <!-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal-{{ $p->id_pengantaran }}" onclick="redirectToDetail('{{ route('pickup.getBlobImage', ['id_pengantaran' => $p->id_pengantaran]) }}')">
+                            {{-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal-{{ $p->id_pengantaran }}" onclick="redirectToDetail('{{ route('pickup.getBlobImage', ['id_pengantaran' => $p->id_pengantaran]) }}')">
     Detail
-</button> -->
+</button> --}}
                                 @if ($p->status == 1)
                                     <form action="{{ route('pickup.pengantaran.selesai', $p->id_pengantaran) }}" method="POST" class="d-inline">
                                         @csrf

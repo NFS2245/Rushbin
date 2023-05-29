@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>RushBin</title>
+    <title>RushB</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
+    <link href="backend/assets/img/favicon.png" rel="icon">
     <link href="img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
@@ -159,9 +160,9 @@
                             <p class="mb-4">Mobile Programmer</p>
                             <img class="img-fluid rounded-circle w-100 mb-4" src="frontend/img/team-1.jpg" alt="">
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                                {{-- <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a> --}}
+                                <a class="btn btn-square text-primary bg-white m-1" href="https://www.linkedin.com/in/gigih-dc-0a3828277/"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>
@@ -171,9 +172,9 @@
                             <p class="mb-4">Web Programmer</p>
                             <img class="img-fluid rounded-circle w-100 mb-4" src="frontend/img/team-2.jpg" alt="">
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                                {{-- <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a> --}}
+                                <a class="btn btn-square text-primary bg-white m-1" href="https://www.linkedin.com/in/nafis-athallah-82b74a277/"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>
@@ -181,23 +182,23 @@
                         <div class="team-item">
                             <h5>Ega Syahrul</h5>
                             <p class="mb-4">Web Programmer</p>
-                            <img class="img-fluid rounded-circle w-100 mb-4" src="frontend/img/team-2.jpg" alt="">
+                            <img class="img-fluid rounded-circle w-100 mb-4" src="frontend/img/team-4.jpg" alt="">
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                                {{-- <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a> --}}
+                                <a class="btn btn-square text-primary bg-white m-1" href="https://www.linkedin.com/in/ega-syahrul-420706276/"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item">
-                            <h5>Nurfatimah</h5>
+                            <h5>Nur Fatimah</h5>
                             <p class="mb-4">Tester</p>
                             <img class="img-fluid rounded-circle w-100 mb-4" src="frontend/img/team-3.jpg" alt="">
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                                {{-- <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square text-primary bg-white m-1" href=""><i class="fab fa-twitter"></i></a> --}}
+                                <a class="btn btn-square text-primary bg-white m-1" href="https://www.linkedin.com/in/nur-fatimah-59b8ba277/"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>

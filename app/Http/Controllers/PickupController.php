@@ -50,7 +50,7 @@ class PickupController extends Controller
 
 //     $imageData = $pickup->gambar1;
 //     $headers = [
-//         'Content-Type' => 'image/png',
+//         'Content-Type' => 'image/jpeg',
 //     ];
 
 //     return response($imageData, 200, $headers);
